@@ -43,7 +43,49 @@ class Store:
             print(f"{index}." , end="")
             product.show()
 
+    def remove_product(self, product):
+        """
+        Removes a product from the store.
+        Args:
+                   product (Product): The product to remove.
+        Raises:
+        ValueError: If the product does not exist in the store.
+        """
+        if product not in self.products:
+            raise ValueError('Product not found in the store')
+        self.products.remove(product) #using remove method on a list
 
 
+    def get_total_quantity(self) -> int:
+        """
+         Return the total quantity of all products in the store.
 
+        """
+        total = 0
+        for product in self.products:
+            total += product.get_quantity()
+        return total
 
+    def get_all_products(self) -> List["Product"]:
+        """
+        Returns all products in the store that are active.
+
+        """
+        active_products = []
+
+        for product in self.products:
+            if product.is_active():
+                active_products.append(product)
+
+        return active_products
+
+    def order(self, shopping_list) -> float:
+        """
+        Buy multiple products and return the total price.
+        """
+        total_price = 0.0
+
+        for product, quantity in shopping_list:
+            total_price += product.buy(quantity)
+
+        return total_price
